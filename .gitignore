@@ -1,0 +1,6 @@
+.env
+.env.prod
+/secrets
+/.venv
+**/__pycache__/
+.idea/
