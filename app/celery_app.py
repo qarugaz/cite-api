@@ -21,4 +21,4 @@ celery.conf.update(
     ]
 )
 
-celery.autodiscover_tasks(["app.tasks.tasks", "app.tasks.works", "app.tasks.gigs"])
+celery.autodiscover_tasks(["app.tasks.tasks"])

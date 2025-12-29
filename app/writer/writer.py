@@ -4,20 +4,44 @@ from app.utils.citation.citation import generate_citation
 
 model = GEMINI_MODEL
 
-async def generate_outline_from_prompt(topic):
-    prompt = f"""
-    Generate a structured research outline for the following topic:
 
-    Topic: {topic}
+async def generate_outline_from_topic(topic, document_type, academic_level):
+    prompt = f"""
+    You are an expert academic writing assistant for higher education and research.
+    You generate structured, publication-quality outlines tailored to different
+    types of academic articles.
+    
+    You understand the conventions, structure, and expectations of:
+    - Essays
+    - Literature Reviews
+    - Term Papers
+    - Case Studies
+    - Research Papers
+    - Conceptual/Theoretical Papers
+    
+    You always adapt the outline structure to the requested article type.
+    
+    Generate a detailed academic outline using the following inputs:
+
+    Topic:
+    {topic}
+    
+    Article Type:
+    {document_type}
+    
+    
+    Academic Level:
+    {academic_level}
     
     Requirements:
-    - The outline must be suitable for an academic or research-oriented paper.
-    - Use clear section and subsection hierarchy.
+    - Use the standard structure appropriate for the specified Article Type
+    - Apply clear hierarchical numbering (1, 1.1, 1.1.1)
     - Each section must include:
       - A short purpose/goal (1 sentence)
       - 3–6 bullet-point writing suggestions explaining what to cover
-    - Do NOT write full paragraphs or citations.
-    - Be neutral, precise, and academically appropriate.
+    - Maintain formal academic tone
+    - Do NOT write full paragraphs
+    - Do NOT include citations
     """
 
     response = await generate_topic_outline(model, prompt)

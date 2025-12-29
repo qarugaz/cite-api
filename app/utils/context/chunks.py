@@ -1,5 +1,5 @@
 from collections import defaultdict
-from app.config.config import GEMINI_MODEL
+from app.config.config import GEMINI_MODEL, COLLECTION_PREFIX
 from app.init.qdrant import get_qdrant_client
 from app.utils.qdrant.qdrant import search_with_qdrant
 
@@ -27,14 +27,14 @@ def format_context_for_llm(context_chunks) -> str:
 
 async def get_query_context_chunks(user_id, query, k):
     qdrant_client = get_qdrant_client()
-    collection_name = f"zeta_{user_id}"
+    collection_name = f"{COLLECTION_PREFIX}-{user_id}"
     context_chunks = await search_with_qdrant(qdrant_client, collection_name, query, k)
     return context_chunks
 
 
 async def get_context_chunks(user_id, queries):
     qdrant_client = get_qdrant_client()
-    collection_name = f"zeta_{user_id}"
+    collection_name = f"{COLLECTION_PREFIX}-{user_id}"
     context_chunks = []
     for query in queries:
         chunks = await search_with_qdrant(qdrant_client, collection_name, query, 12)

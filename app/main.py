@@ -1,13 +1,21 @@
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from app.api import writer, article
 
+app = FastAPI(title="Research Writing Assistant")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(writer.router, tags=["writer"])
+app.include_router(article.router, tags=["article"])
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+def read_root():
+    return {"message": "Academic Research and Writing Assistant API"}
